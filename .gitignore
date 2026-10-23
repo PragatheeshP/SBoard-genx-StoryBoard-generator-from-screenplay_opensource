@@ -1,0 +1,45 @@
+# Environment
+.env
+venv/
+env/
+ENV/
+*.pyc
+__pycache__/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads and outputs
+uploads/
+outputs/
+
+# Models cache
+models/
+.cache/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Python
+*.egg-info/
+dist/
+build/
+
+# Large binary / doc files
+literature survey docs/
+*.pdf
+*.docx
+"VIT Logo Black.png"

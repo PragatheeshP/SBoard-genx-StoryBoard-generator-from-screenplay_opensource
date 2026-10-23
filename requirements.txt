@@ -1,0 +1,43 @@
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+aiofiles==23.2.1
+
+# Database
+sqlalchemy==2.0.25
+
+# OCR
+pytesseract==0.3.10
+
+
+# Speech-to-Text
+requests==2.31.0
+
+# LLM for Script Parsing (Ollama local — uses requests, already listed above)
+
+# Image Generation
+torch==2.2.0
+torchvision==0.17.0
+diffusers==0.25.0
+transformers==4.36.2
+accelerate==0.26.1
+safetensors==0.4.1
+invisible-watermark==0.2.0
+# IP-Adapter dependencies
+opencv-python==4.6.0.66
+
+# Consistency Evaluation
+open-clip-torch==2.24.0
+
+# Image Processing
+Pillow==10.2.0
+
+# Export
+reportlab==4.0.9
+python-pptx==0.6.23
+
+# Utilities
+python-dotenv==1.0.0
+pydantic==2.5.3
+pydantic-settings==2.1.0

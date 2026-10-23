@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screenplay-to-Storyboard Generator</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Landing Section -->
+    <section id="landing" class="landing-section">
+        <div class="landing-content">
+            <h1 class="main-title">Screenplay to Storyboard</h1>
+            <p class="subtitle">Transform your screenplay into character-consistent storyboard panels with AI</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📝</div>
+                    <h3>Multiple Input Formats</h3>
+                    <p>Upload PDF, image scans, or paste text directly — supports Tamil and English scripts</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎭</div>
+                    <h3>Character Consistency</h3>
+                    <p>Define character references once and maintain visual consistency across all panels</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎬</div>
+                    <h3>Smart Shot Planning</h3>
+                    <p>AI analyzes your screenplay and suggests optimal camera angles and compositions</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📤</div>
+                    <h3>Professional Export</h3>
+                    <p>Export as PDF (one panel per page) or PowerPoint (four panels per slide)</p>
+                </div>
+            </div>
+
+            <div class="example-storyboards">
+                <h2>Example Storyboards</h2>
+                <div class="examples-grid">
+                    <div class="example-card">
+                        <div class="example-placeholder">
+                            <p>Coffee Shop Meeting</p>
+                            <span>3 panels · Interior · Day</span>
+                        </div>
+                    </div>
+                    <div class="example-card">
+                        <div class="example-placeholder">
+                            <p>Chase Sequence</p>
+                            <span>5 panels · Exterior · Night</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="cta-button" onclick="app.showSection('upload')">Get Started</button>
+        </div>
+    </section>
+
+    <!-- Main Application -->
+    <div id="app" class="app-container" style="display: none;">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h2>Storyboard</h2>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-item active" data-section="storyboard" onclick="app.showSection('storyboard')">
+                    <span class="nav-icon">🎬</span>
+                    <span>Storyboard</span>
+                </button>
+                <button class="nav-item" data-section="upload" onclick="app.showSection('upload')">
+                    <span class="nav-icon">📥</span>
+                    <span>Upload</span>
+                </button>
+                <button class="nav-item" data-section="characters" onclick="app.showSection('characters')">
+                    <span class="nav-icon">👤</span>
+                    <span>Characters</span>
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="back-home-btn" onclick="app.showLanding()">← Home</button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Storyboard Section -->
+            <section id="storyboard-section" class="content-section">
+                <div class="section-header">
+                    <h1 id="project-title">Untitled Storyboard</h1>
+                    <div class="header-actions">
+                        <button class="btn-secondary" onclick="app.assembleStoryboard()">
+                            <span>📋</span> Assemble Sheet
+                        </button>
+                        <button class="btn-secondary" onclick="app.exportPDF()">
+                            <span>📄</span> Export PDF
+                        </button>
+                        <button class="btn-secondary" onclick="app.exportPPTX()">
+                            <span>📊</span> Export PPTX
+                        </button>
+                        <button class="btn-secondary" onclick="app.shareStoryboard()">
+                            <span>🔗</span> Share
+                        </button>
+                    </div>
+                </div>
+
+                <div id="shots-grid" class="shots-grid">
+                    <div class="empty-state">
+                        <p>No storyboard yet. Upload a screenplay to get started.</p>
+                        <button class="btn-primary" onclick="app.showSection('upload')">Upload Screenplay</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Upload Section -->
+            <section id="upload-section" class="content-section" style="display: none;">
+                <div class="section-header">
+                    <h1>Upload Screenplay</h1>
+                </div>
+
+                <div class="upload-container">
+                    <div class="glass-panel">
+                        <h3>Template Format</h3>
+                        <div class="template-info">
+                            <code id="template-display">Loading template...</code>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel">
+                        <h3>Upload Options</h3>
+                        
+                        <div class="upload-tabs">
+                            <button class="tab-btn active" data-tab="text" onclick="app.switchUploadTab('text')">Text</button>
+                            <button class="tab-btn" data-tab="file" onclick="app.switchUploadTab('file')">File</button>
+                        </div>
+
+                        <!-- Text Tab -->
+                        <div id="text-tab" class="upload-tab active">
+                            <textarea id="screenplay-text" placeholder="Paste your screenplay here..."></textarea>
+                            <button class="btn-primary" onclick="app.uploadText()">Upload Text</button>
+                        </div>
+
+                        <!-- File Tab -->
+                        <div id="file-tab" class="upload-tab" style="display: none;">
+                            <div class="file-drop-zone" id="file-drop-zone">
+                                <p>Drag & drop a screenplay file here</p>
+                                <p class="hint">or click to browse</p>
+                                <p class="hint">Supports PDF, images (PNG, JPG), and text files</p>
+                                <input type="file" id="file-input" accept=".pdf,.png,.jpg,.jpeg,.txt" style="display: none;">
+                            </div>
+                            <button class="btn-primary" onclick="app.uploadFile()" id="upload-file-btn" disabled>Upload File</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel">
+                        <h3>Example Screenplays</h3>
+                        <div class="examples">
+                            <div class="example-snippet" onclick="app.loadExample(1)">
+                                <strong>Coffee Shop Reunion</strong>
+                                <p>Two friends meet after years apart...</p>
+                            </div>
+                            <div class="example-snippet" onclick="app.loadExample(2)">
+                                <strong>Dramatic Confrontation</strong>
+                                <p>A tense showdown between hero and villain...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action-footer">
+                    <button class="btn-primary btn-large" onclick="app.parseScreenplay()">
+                        Parse Screenplay →
+                    </button>
+                </div>
+            </section>
+
+            <!-- Characters Section -->
+            <section id="characters-section" class="content-section" style="display: none;">
+                <div class="section-header">
+                    <h1>Character Development</h1>
+                </div>
+
+                <div id="characters-list" class="characters-grid">
+                    <div class="empty-state">
+                        <p>No characters yet. Parse a screenplay first.</p>
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="app.generateStoryboard()">
+                    Generate Storyboard
+                </button>
+            </section>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p id="loading-message">Processing...</p>
+        </div>
+    </div>
+
+    <!-- Modal for Shot Details -->
+    <div id="shot-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close" onclick="app.closeModal()">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
